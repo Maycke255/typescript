@@ -1,0 +1,9 @@
+{
+    //Configuração do arquivo de saída, o nome do arquivo sera main.js
+    //Definimos também a versão do JS para a esnext, ou seja a versão mais atual o "ignoreDeprecations": "6.0" e apenas para silenciar um erro
+  "compilerOptions": {
+    "target": "esnext",
+    "ignoreDeprecations": "6.0",
+    "outFile": "main.js",
+  }
+}
