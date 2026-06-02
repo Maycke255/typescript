@@ -21,12 +21,64 @@ A quarta função deverá listar todas as naves registradas e suas respectivas i
 */
 
 interface Crew {
-    name?: string;
+    name: string;
 }
 
-let ships: [name: string, 
-    pilot: string,
-    crewLimit: number,
-    Crew,
-    inMission: boolean
-];
+interface Spaceship {
+    name: string;
+    pilot: string;
+    crewLimit: number;
+    crews?: Crew[];
+    inMission: false;
+}
+
+interface SuccessResponse<T> {
+    success: true;
+    data?: T;
+    message?: string;
+} 
+
+interface ErrorResponse {
+    success: false;
+    message?: string;
+}
+
+type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+
+declare global {
+    var menu: string
+}
+
+
+class tripsToSpace {
+    private spaceshipMents: Spaceship[];
+
+    constructor () {
+        this.spaceshipMents = [];
+    }
+
+    getAll (): ApiResponse<Spaceship[]> {
+        try {
+            if (this.spaceshipMents.length === 0) {
+                return {
+                    success: true,
+                    message: 'Sem naves atualmente.',
+                    data: []
+                }
+            }
+    
+            return { success: true, data: this.spaceshipMents }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `Erro ao listar naves espaciais!`
+            }
+        }
+    }
+}
+
+function addNewSpaceship (name: string, pilot: string, crewLimit: Number) {
+
+}
+
+export {}
