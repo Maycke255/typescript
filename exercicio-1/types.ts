@@ -24,6 +24,7 @@ interface Crew {
     name: string;
 }
 
+//1️⃣ Interface - Define o formato do objeto:
 interface Spaceship {
     name: string;
     pilot: string;
@@ -31,6 +32,27 @@ interface Spaceship {
     crews?: Crew[];
     inMission: false;
 }
+
+// ☣ USANDO INTERFACE GENERICA ->
+// <T> é um parâmetro de tipo — funciona como uma variável, mas para tipos. Resumindo em vez de fixar o tipo de uma propriedade, 
+// você deixa ele ser definido na hora de usar, assim podendo atribuir qualquer tipoo de valor para aquele resultado.
+//Você pode ter mais de um <T>:
+interface Par<A, B> {
+  primeiro: A;
+  segundo: B;
+}
+
+const par: Par<string, number> = { primeiro: "idade", segundo: 25 };
+
+/* O nome T é uma convenção
+Você pode usar qualquer nome, mas existem convenções comuns:
+Nome    Uso típico
+T       Type — genérico geral
+K       Key — chave
+V       Value — valor
+E       Element — elemento de lista
+↪ interface Pessoa<T> significa: "essa interface tem uma parte do tipo que só será definida quando alguém for usá-la".
+É uma forma de escrever código flexível e reutilizável sem abrir mão da segurança de tipos. */
 
 interface SuccessResponse<T> {
     success: true;
@@ -51,13 +73,17 @@ declare global {
 
 
 class tripsToSpace {
+    //2️⃣ Variavel privada - diz que a classe tera a lista de spaceships
     private spaceshipMents: Spaceship[];
 
+    //3️⃣ Construtor - Inicializa essa lista como array vazia para que seja preenchida com decorrer do métodos
+    // Todos essas três partes estão interligadas
     constructor () {
         this.spaceshipMents = [];
     }
 
-    getAll (): ApiResponse<Spaceship[]> {
+    // Aqui o dado retornado não e a array do construtor, mas sim o tipo de dado, que vai ser spaceship em forma de array
+    getAll (): ApiResponse<Spaceship[]> { // <- Aqui e so o tipo
         try {
             if (this.spaceshipMents.length === 0) {
                 return {
@@ -67,7 +93,7 @@ class tripsToSpace {
                 }
             }
     
-            return { success: true, data: this.spaceshipMents }
+            return { success: true, data: this.spaceshipMents } // <- Aqui e a array REAL
         } catch (error: any) {
             return {
                 success: false,
