@@ -38,19 +38,18 @@ interface SuccessResponse<T> {
     success: true;
     data?: T;
     message?: string;
-} 
+}
 
 interface ErrorResponse {
     success: false;
     message?: string;
 }
 
-type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
-
-declare global {
-    var menu: string
+interface SpaceshipsLength<V> {
+    quantity: V;
 }
 
+type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
 
 class TripsToSpace {
     //2️⃣ Variavel privada - diz que a classe tera a lista de spaceships
@@ -61,6 +60,20 @@ class TripsToSpace {
     // Todos essas três partes estão interligadas
     constructor () {
         this.spaceshipMents = [];
+    }
+
+    returnNumberOfShips (): ApiResponse<SpaceshipsLength<number>> {
+        try {
+            return {
+                success: true,
+                data: { quantity: this.spaceshipMents.length }
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `Erro ao listar naves espaciais: ${error.message}!`
+            }
+        }
     }
 
     // Aqui o dado retornado não e a array do construtor, mas sim o tipo de dado, que vai ser spaceship em forma de array
