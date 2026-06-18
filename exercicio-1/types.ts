@@ -45,10 +45,6 @@ interface ErrorResponse {
     message?: string;
 }
 
-interface SpaceshipsLength<V> {
-    quantity: V;
-}
-
 type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
 
 class TripsToSpace {
@@ -62,11 +58,11 @@ class TripsToSpace {
         this.spaceshipMents = [];
     }
 
-    returnNumberOfShips (): ApiResponse<SpaceshipsLength<number>> {
+    returnNumberOfShips (): ApiResponse<number> {
         try {
             return {
                 success: true,
-                data: { quantity: this.spaceshipMents.length }
+                data: this.spaceshipMents.length
             }
         } catch (error: any) {
             return {
@@ -81,9 +77,8 @@ class TripsToSpace {
         try {
             if (this.spaceshipMents.length === 0) {
                 return {
-                    success: true,
-                    message: 'Sem naves atualmente.',
-                    data: []
+                    success: false,
+                    message: 'Sem naves atualmente.'
                 }
             }
     

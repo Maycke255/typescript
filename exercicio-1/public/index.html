@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trips to Space</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+
+  <div id="app">
+    <div class="top-bar">
+      <h1>🚀 Trips to Space</h1>
+      <span class="badge-count" id="total-badge">0 naves</span>
+    </div>
+
+    <nav>
+      <button class="active" data-view="list">📋 Naves</button>
+      <button data-view="new-ship">➕ Nova nave</button>
+      <button data-view="add-member">👤 Adicionar membro</button>
+      <button data-view="send-mission">📡 Enviar missão</button>
+    </nav>
+
+    <!-- VIEW: lista de naves -->
+    <div id="view-list" class="view active">
+      <div id="ship-list"></div>
+    </div>
+
+    <!-- VIEW: nova nave -->
+    <div id="view-new-ship" class="view">
+      <p class="section-title">Cadastrar nova nave</p>
+      <div class="form-card">
+        <div class="form-row">
+          <label>Nome da nave</label>
+          <input id="f-name" type="text" placeholder="Ex: USS Enterprise">
+        </div>
+        <div class="form-row">
+          <label>Piloto</label>
+          <input id="f-pilot" type="text" placeholder="Ex: James T. Kirk">
+        </div>
+        <div class="form-row">
+          <label>Limite de tripulantes</label>
+          <input id="f-limit" type="number" min="1" placeholder="Ex: 10">
+        </div>
+        <div class="form-actions">
+          <button class="btn-submit" onclick="submitNewShip()">✔ Cadastrar</button>
+          <button onclick="goTo('list')">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: adicionar membro -->
+    <div id="view-add-member" class="view">
+      <p class="section-title">Adicionar membro à tripulação</p>
+      <div class="form-card">
+        <div class="form-row">
+          <label>Selecione a nave</label>
+          <select id="f-ship-member"></select>
+        </div>
+        <div class="form-row">
+          <label>Nome do tripulante</label>
+          <input id="f-member-name" type="text" placeholder="Ex: Spock">
+        </div>
+        <div class="form-actions">
+          <button class="btn-submit" onclick="submitAddMember()">👤 Adicionar</button>
+          <button onclick="goTo('list')">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: enviar para missão -->
+    <div id="view-send-mission" class="view">
+      <p class="section-title">Enviar nave para missão</p>
+      <div class="form-card">
+        <div class="form-row">
+          <label>Selecione a nave</label>
+          <select id="f-ship-mission"></select>
+        </div>
+        <div class="form-actions">
+          <button class="btn-submit" onclick="submitSendMission()">🚀 Enviar</button>
+          <button onclick="goTo('list')">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="../controller.ts"></script>
+</body>
+</html>
