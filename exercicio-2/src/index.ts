@@ -38,10 +38,11 @@ type Coordinates = [x: number, y: number, z: number, w: number];
 //Type - Mesma coisa, porem usamos o Union Types, e um tipo que define apenas um unico dado para aquele dado e nada mais
 type Situation = 'habitado' | 'habitavel' | 'inabitavel' | 'inexplorado';
 
+//Type Guard - É uma função que ensina o TypeScript qual é o tipo de um valor em tempo de execução.
 //Função par averificar se a situação enviada pela requisição e veridica
 //⚛ valor is Situation é um type guard — ele diz ao TypeScript: "se essa função retornar true, pode confiar que o valor é do tipo Situacao".
 function isStituationForTrue (valor: string): valor is Situation {
-    return ['habitado', 'habitavel', 'inabitavel', 'inexplorado'].includes(valor);
+    return ['habitado', 'habitavel', 'inabitavel', 'inexplorado'].includes(valor); // "Se essa função retornar true, prometo ao TS que valor e do tipo Situation"
 }
 
 //Interface - e como uma classe, ela define a forma ou shape de um objeto, em vez de criarmos "const object = {...}"
@@ -145,6 +146,13 @@ class ManutencaoDePlanetas {
                 }
             }
 
+            planetExist.situation = newSituation;
+            return {
+                success: true,
+                message: 'Situação do planeta atualizada com sucesso',
+                data: this.galaxia
+            }
+
         } catch (error: any) {
             return {
                 success: false,
@@ -152,4 +160,105 @@ class ManutencaoDePlanetas {
             }
         }
     }
+
+    // 3️⃣ Adicionar satelite ao planeta
+    addSatellite (id: number, newSatellite: string): ApiResponse<Planet[]> {
+        try {
+            const idForNumber = Number(id);
+
+            const planetExist = this.galaxia.find(p => idForNumber === p.id);
+
+            if (!planetExist) {
+                return {
+                    success: false,
+                    message: 'Planeta não cadastrado!'
+                }
+            }
+
+            const satelliteExist = planetExist.satellites.includes(newSatellite);
+
+            if (satelliteExist) {
+                return {
+                    success: false,
+                    message: `Saelite com nome ${newSatellite} já existe nesse planeta!`
+                }
+            }
+
+            planetExist.satellites.push(newSatellite);
+
+            return {
+                success: true,
+                message: 'Satelite adicionado ao planeta com sucesso!',
+                data: this.galaxia
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: 'Erro interno ao adicionar novo satilete ao planeta.'
+            }
+        }
+    }
+
+    // 4️⃣ Remover satelite
+    removeSatteliteFromPlanet (id: number, sattelite: string): ApiResponse<Planet[]> {
+        try {
+            const idForNumber = Number(id);
+
+            const planetExist = this.galaxia.find(p => idForNumber === p.id);
+
+            if (!planetExist) {
+                return {
+                    success: false,
+                    message: 'Planeta não cadastrado!'
+                }
+            }
+
+            const satelliteExist = planetExist.satellites.indexOf(sattelite);
+
+            if (satelliteExist === -1) {
+                return {
+                    success: false,
+                    message: 'Satelite informado não existe ou esta com nome incorreto'
+                }
+            }
+
+            planetExist.satellites.splice(satelliteExist, 1);
+
+            return {
+                success: true,
+                message: `Satelite ${sattelite} removido com sucesso!`,
+                data: this.galaxia
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: 'Erro interno ao remover novo satilete do planeta.'
+            }   
+        }
+    }
+
+    // 5️⃣ Listar todos os planetas
+    listGalaxia (): ApiResponse<Planet[]> {
+        try {
+            if (this.galaxia.length === 0) {
+                return {
+                    success: true,
+                    message: 'Nenhum planeta cadastrado ainda'
+                }
+            }
+
+            return {
+                success: true,
+                data: this.galaxia
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: 'Erro interno ao listar planetas'
+            }  
+        }
+    }
 }
+
+export default new ManutencaoDePlanetas;
+export {};
