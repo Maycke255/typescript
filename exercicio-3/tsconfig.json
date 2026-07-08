@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "CommonJS",
+    "ignoreDeprecations": "6.0",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": "./backend",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  },
+  "include": ["backend"]
+}
