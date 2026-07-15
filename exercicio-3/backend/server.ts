@@ -105,4 +105,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`API rodando na porta: <http://localhost>:${PORT}`));
+app.listen(PORT, () => console.log(`API rodando na porta: http://localhost:${PORT}`));

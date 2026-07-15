@@ -254,6 +254,7 @@ class ManutencaoDePlanetas {
         } catch (error: any) {
             return {
                 success: false,
+                
                 message: 'Erro interno ao listar planetas'
             }  
         }
