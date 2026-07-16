@@ -70,13 +70,14 @@ públicos
     stargazers_count, do tipo
     number
 
+
+3. Uma função que mostra
+todos os usuários salvos
+
 4. Uma função que calcula
 a soma de repositórios dos
 usuários salvos na lista e
 mostre o resultado
-
-3. Uma função que mostra
-todos os usuários salvos
 
 5. Uma função que mostre o
 top cinco de usuários com
