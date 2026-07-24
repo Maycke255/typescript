@@ -73,7 +73,13 @@ class GitHubController {
 
     async sumRepos (req: Request, res: Response) {
         try {
+            const result = GitHubApi.sumAllRepos();
             
+            if (result.success) {
+                return res.status(200).json();
+            } else {
+                return res.status(400).json();
+            }
         } catch (error: any) {
             res.status(500).json({
                 success: false,
@@ -81,4 +87,23 @@ class GitHubController {
             });    
         }
     }
+
+    async topFive (req: Request, res: Response) {
+        try {
+            const result = GitHubApi.topFiveUsers();
+
+            if (result.success) {
+                return res.status(200).json();
+            } else {
+                return res.status(400).json();
+            }
+        } catch (error: any) {
+            res.status(500).json({
+                success: false,
+                error: error.message
+            })
+        }
+    }
 }
+
+export default new GitHubController();
