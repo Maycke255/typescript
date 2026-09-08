@@ -37,6 +37,10 @@ class legalEntity extends People {
     getCNPJ(): string {
         return this.cnpj; //Retornando o valor do CNPJ.
     }
+
+    setCNPJ(_cnpj: string): void {
+        this.cnpj = _cnpj;
+    }
 }
 
 const person1 = new People('João', 30, '123.456.789-00', 'MG-12.345.678');
@@ -50,3 +54,32 @@ console.log(company1.getCNPJ()); //12.345.678/0001-90
 //O que e isso que esta autocompletando? E uma IA do VS code? Esta me ajudando a escrever o codigo, mas eu posso desativar 
 // isso se quiser, e so ir nas configurações do VS code e procurar por "IntelliCode" e desativar a opção "Enable IntelliCode completions".
 // =====================================================================================================================================
+
+// =============================================================================================================================================
+
+//Generics, e uma forma de criar funções e classes que podem trabalhar com diferentes tipos de dados, sem precisar duplicar o código para cada tipo.
+//Usamos ela praticamente como uma função quer recebe tecnicamente um parametro, ela praticamente retorna o que ela recebe, nesse caso e uma pratica comum em APIs
+// - A interface generica recebe o dado atravez da requisição e retorna ele para o usuario se der certo ou não
+interface SuccessResponse <T> {
+    success: true;
+    data?: T;
+    message?: string;
+}
+
+interface ErrorResponse {
+    success: false;
+    message?: false;
+}
+
+type ApiResponse <R> = SuccessResponse<R> | ErrorResponse;
+
+//ex:
+function rerturning <T>(value: any): T {
+    return value
+}
+
+const result = rerturning(`Olá`);
+
+const text = rerturning("olá");   // TypeScript sabe que é string ✅
+const number = rerturning(42);     // TypeScript sabe que é number ✅
+const active = rerturning(true);    // TypeScript sabe que é boolean ✅
