@@ -74,7 +74,7 @@ interface ErrorResponse {
 type ApiResponse <R> = SuccessResponse<R> | ErrorResponse;
 
 //ex:
-function rerturning <T>(value: any): T {
+function rerturning <T>(value: T): T { //Nesse caso o 
     return value
 }
 
@@ -83,3 +83,20 @@ const result = rerturning(`Olá`);
 const text = rerturning("olá");   // TypeScript sabe que é string ✅
 const number = rerturning(42);     // TypeScript sabe que é number ✅
 const active = rerturning(true);    // TypeScript sabe que é boolean ✅
+
+// =============================================================================================================================================
+
+//Decorators
+//Decorators são uma especie de anotação ou marcação que colocamos em cima de classes, métodos ou funções para adicionar um comportamento extra
+//na maioria das vezes sem modificar o comportamento original. Ex:
+/* 
+@minhaAnotacao
+class MinhaClasse { } */
+
+//Obs:
+//E necessario ativa-lo no tsconfig antes:
+/* {
+  "compilerOptions": {
+    "experimentalDecorators": true
+  }
+} */
