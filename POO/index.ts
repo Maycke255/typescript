@@ -100,3 +100,37 @@ class MinhaClasse { } */
     "experimentalDecorators": true
   }
 } */
+
+function Log () {
+    return function (target: any, key: any, descriptor: any) {
+        const originalMethod = descriptor.value;
+
+        descriptor.value = function (...args: any[]) {
+            console.log(`-------------------------------------------------------`);
+            console.log(`Chamando o método ${key} com os parametros: ${JSON.stringify(args)}`);
+
+            const result = originalMethod.apply(this, args);
+
+            console.log(`O método ${key} retornou o valor: ${JSON.stringify(args)}`);
+            console.log(`-------------------------------------------------------`);
+
+            return result;
+        }
+    }
+}
+
+class Planet {
+    name: string;
+
+    constructor (name: string) {
+        this.name = name;
+    }
+
+    @Log()
+    invertName () {
+        return this.name.split('').reverse().join();
+    }
+}
+
+const planet = new Planet(`Terra`);
+planet.invertName()
