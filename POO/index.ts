@@ -111,7 +111,7 @@ function Log () {
 
             const result = originalMethod.apply(this, args);
 
-            console.log(`O método ${key} retornou o valor: ${JSON.stringify(args)}`);
+            console.log(`O método ${key} retornou o valor: ${JSON.stringify(result)}`);
             console.log(`-------------------------------------------------------`);
 
             return result;
@@ -128,9 +128,50 @@ class Planet {
 
     @Log()
     invertName () {
-        return this.name.split('').reverse().join();
+        return this.name.split('').reverse().join('');
+    }
+
+    @Log()
+    calculate (value: number) {
+        console.log(`Calculando ${value} duas vezes`);
+        return value * 2;
     }
 }
 
+/* RESUMO:
+A função decoradora (recebe target, key, descriptor)
+
+O que Log() retorna é a função que o TypeScript de fato aplica ao método decorado. Ela é chamada automaticamente uma vez, 
+quando a classe é definida (não quando o método é chamado!), com três argumentos:
+
+target: o protótipo da classe (Planet.prototype)
+key: o nome do método como string ("invertName" ou "calculate")
+descriptor: um objeto que descreve o método, no formato PropertyDescriptor. A parte que interessa é descriptor.value, que é a função original do método.
+
+Depois, você sobrescreve descriptor.value com uma nova função. É essa nova função que vai efetivamente rodar toda vez que alguém chamar 
+planet.invertName() ou planet.calculate(5)
+
+Repare que:
+
+...args: any[] captura quaisquer argumentos que o método receber.
+originalMethod.apply(this, args) chama o método verdadeiro, preservando o this (a instância do Planet) e passando os argumentos adiante.
+O resultado é guardado em result, logado, e depois retornado — assim quem chamou o método continua recebendo o valor certo, só que "por dentro" 
+do log passou a ser executado também.
+Linha do tempo de execução
+Ao carregar o módulo/classe: Log() roda, e a função decoradora roda para cada método marcado com @Log(), trocando descriptor.value pela versão "logada". 
+Isso acontece uma única vez, na definição da classe.
+Quando você chama planet.calculate(5): na verdade você está chamando a função substituída, que:
+loga a entrada,
+chama a função original via apply,
+loga a saída,
+retorna o resultado.
+Por que isso é útil
+
+Esse padrão se chama decorator de interceptação (ou "wrapping"): ele permite adicionar comportamento (logging, medição de tempo, cache, 
+validação, etc.) sem alterar o código do método original e sem precisar repetir esse código em cada método. Basta anotar com @Log() qualquer método que você queira monitorar.
+
+É essencialmente açúcar sintático para isto, escrito manualmente:*/
 const planet = new Planet(`Terra`);
-planet.invertName()
+
+planet.calculate(5);
+planet.invertName();
